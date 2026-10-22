@@ -483,11 +483,13 @@ class HatInTimeWorld(World):
         # Likely need to do time rift deferral as well, since those are tied to both act completion and location availability.
         # Would need to potentially look at the deferred logic for deathwish too... is there anything else?
 
-        # TODO: Add "Glitched" logic
+        # TODO: Add "Glitched" logic (partial implementation done, have some stuff left in expert and need to decide if I want to deal with the random scattered difficulty rules without rule builder)
+        # Maybe move the glitched logic rules to a separate file referenced and called by rules, keep rules cleaner and make things more separate for a potential RB refactor?
 
         # TODO: Add Custom Sorting? Could group region checks together. (I likely won't do this)
 
         # TODO: Add UT map tracker support (integrate with existing poptracker)
+        # Looks like the item names don't match, so would also need to build a translation table
 
         # TODO: Add any Logic explanation overrides desired (I likely won't do this)
 
@@ -495,5 +497,5 @@ class HatInTimeWorld(World):
         
         # TODO: Add hint colors to AHIT client UT integration? Is that already there by default?
         
-        # TODO: refactor to Rule Builder to greatly improve/streamline glitch logic. 
+        # TODO: Consider refactor to Rule Builder to greatly improve/streamline glitch logic. (I likely won't do this, but maybe!)
         # Would need core PR 6401 to mostly follow existing logic using add_rule, would allow for an easier but less clean/ideal refactor

@@ -388,11 +388,11 @@ def set_specific_rules(world: "HatInTimeWorld"):
         if glitch_difficulty == Difficulty.MODERATE:
             set_glitched_moderate_rules(world)
 
-        # if glitch_difficulty == Difficulty.HARD:
-            # set_hard_rules(world)
+        if glitch_difficulty == Difficulty.HARD:
+            set_glitched_hard_rules(world)
 
-        # if glitch_difficulty == Difficulty.EXPERT:
-            # set_expert_rules(world)
+        if glitch_difficulty == Difficulty.EXPERT:
+            set_glitched_expert_rules(world)
     
 
 
@@ -493,6 +493,7 @@ def set_moderate_rules(world: "HatInTimeWorld"):
             set_rule(world.multiworld.get_entrance("-> Bluefin Tunnel", world.player), lambda state: True)
 
 
+# Modified clone of set_moderate_rules. Far from clean, but should get the job done for now.
 def set_glitched_moderate_rules(world: "HatInTimeWorld"):
     # Moderate: Gallery without Brewing Hat
     location = world.multiworld.get_location("Act Completion (Time Rift - Gallery)", world.player)
@@ -657,6 +658,61 @@ def set_hard_rules(world: "HatInTimeWorld"):
                      and state.has("Metro Ticket - Pink", world.player))
 
 
+# Modified clone of set_hard_rules. Far from clean, but should get the job done for now.
+def set_glitched_hard_rules(world: "HatInTimeWorld"):
+    # Hard: clear Time Rift - The Twilight Bell with Sprint+Scooter only
+    add_rule(world.multiworld.get_location("Act Completion (Time Rift - The Twilight Bell)", world.player),
+             lambda state: can_use_hat(state, world, HatType.SPRINT)
+             and state.has("Scooter Badge", world.player) and glitch_logic(state, world), "or")
+
+    # No Dweller Mask required
+    add_rule(world.multiworld.get_location("Subcon Forest - Dweller Floating Rocks", world.player),
+             lambda state: has_paintings(state, world, 3) and glitch_logic(state, world), "or")
+    add_rule(world.multiworld.get_location("Subcon Forest - Dweller Platforming Tree B", world.player),
+             lambda state: has_paintings(state, world, 3) and glitch_logic(state, world), "or")
+
+    # Cherry bridge over boss arena gap
+    add_rule(world.get_entrance("SF Behind Boss Firewall -> SF Boss Arena"),
+             lambda state: glitch_logic(state, world), "or")
+
+    add_rule(world.multiworld.get_location("Subcon Forest - Noose Treehouse", world.player),
+             lambda state: has_paintings(state, world, 2, True) and glitch_logic(state, world), "or")
+    add_rule(world.multiworld.get_location("Subcon Forest - Long Tree Climb Chest", world.player),
+             lambda state: has_paintings(state, world, 2, True) and glitch_logic(state, world), "or")
+    add_rule(world.multiworld.get_location("Subcon Forest - Tall Tree Hookshot Swing", world.player),
+             lambda state: has_paintings(state, world, 3, True) and glitch_logic(state, world), "or")
+
+    # SDJ
+    add_rule(world.multiworld.get_location("Act Completion (Time Rift - Curly Tail Trail)", world.player),
+             lambda state: can_use_hat(state, world, HatType.SPRINT) and glitch_logic(state, world), "or")
+
+    # Hard: Goat Refinery from TIHS with nothing
+    add_rule(world.multiworld.get_location("Alpine Skyline - Goat Refinery", world.player),
+             lambda state: state.has("TIHS Access", world.player) and glitch_logic(state, world), "or")
+
+    if world.is_dlc1():
+        # Hard: clear Deep Sea without Dweller Mask
+        add_rule(world.multiworld.get_location("Act Completion (Time Rift - Deep Sea)", world.player),
+                 lambda state: can_use_hookshot(state, world) and glitch_logic(state, world), "or")
+
+    if world.is_dlc2():
+        # Hard: clear Green Clean Manhole without Dweller Mask
+        add_rule(world.multiworld.get_location("Act Completion (Green Clean Manhole)", world.player),
+                 lambda state: can_use_hat(state, world, HatType.ICE) and glitch_logic(state, world), "or")
+
+        # Hard: clear Rush Hour with Brewing Hat only
+        if world.options.NoTicketSkips != NoTicketSkips.option_true:
+            add_rule(world.multiworld.get_location("Act Completion (Rush Hour)", world.player),
+                     lambda state: can_use_hat(state, world, HatType.BREWING) and glitch_logic(state, world), "or")
+        else:
+            add_rule(world.multiworld.get_location("Act Completion (Rush Hour)", world.player),
+                     lambda state: can_use_hat(state, world, HatType.BREWING)
+                     and state.has("Metro Ticket - Yellow", world.player)
+                     and state.has("Metro Ticket - Blue", world.player)
+                     and state.has("Metro Ticket - Pink", world.player)
+                     and glitch_logic(state, world), "or")
+
+
 def set_expert_rules(world: "HatInTimeWorld"):
     # Finale Telescope with no hats
     set_rule(world.multiworld.get_entrance("Telescope -> Time's End", world.player),
@@ -772,6 +828,135 @@ def set_expert_rules(world: "HatInTimeWorld"):
                  lambda state: True)
         set_rule(world.multiworld.get_location("Act Completion (Green Clean Manhole)", world.player),
                  lambda state: True)
+
+
+# Modified clone of set_expert_rules. Far from clean, but should get the job done for now.
+def set_glitched_expert_rules(world: "HatInTimeWorld"):
+    # Finale Telescope with no hats
+    add_rule(world.multiworld.get_entrance("Telescope -> Time's End", world.player),
+             lambda state: state.has("Time Piece", world.player, world.chapter_timepiece_costs[ChapterIndex.FINALE])
+             and glitch_logic(state, world), "or")
+
+    # Expert: Mafia Town - Above Boats, Top of Lighthouse, and Hot Air Balloon with nothing
+    add_rule(world.multiworld.get_location("Mafia Town - Above Boats", world.player),
+             lambda state: glitch_logic(state, world), "or")
+    add_rule(world.multiworld.get_location("Mafia Town - Top of Lighthouse", world.player),
+             lambda state: glitch_logic(state, world), "or")
+    # There are not enough buckets/beach balls to bucket/ball hover in Heating Up Mafia Town, so any other Mafia Town
+    # act is required.
+    add_rule(world.multiworld.get_location("Mafia Town - Hot Air Balloon", world.player),
+             lambda state: state.can_reach_region("Mafia Town Area", world.player) and glitch_logic(state, world), "or")
+
+    # Expert: Clear Dead Bird Studio with nothing
+    for loc in world.multiworld.get_region("Dead Bird Studio - Post Elevator Area", world.player).locations:
+        add_rule(loc, lambda state: glitch_logic(state, world), "or")
+
+    add_rule(world.multiworld.get_location("Act Completion (Dead Bird Studio)", world.player),
+             lambda state: glitch_logic(state, world), "or")
+
+    # Expert: Clear Dead Bird Studio Basement without Hookshot
+    for loc in world.multiworld.get_region("Dead Bird Studio Basement", world.player).locations:
+        add_rule(loc, lambda state: glitch_logic(state, world), "or")
+
+    # Expert: get to and clear Twilight Bell without Dweller Mask.
+    # Dweller Mask OR Sprint Hat OR Brewing Hat OR Time Stop + Umbrella required to complete act.
+    add_rule(world.multiworld.get_entrance("-> The Twilight Bell", world.player),
+             lambda state: can_use_hookshot(state, world) and glitch_logic(state, world), "or")
+
+    add_rule(world.multiworld.get_location("Act Completion (The Twilight Bell)", world.player),
+             lambda state: (can_use_hat(state, world, HatType.BREWING)
+             or can_use_hat(state, world, HatType.DWELLER)
+             or can_use_hat(state, world, HatType.SPRINT)
+             or (can_use_hat(state, world, HatType.TIME_STOP)
+             and state.has("Umbrella", world.player))) and glitch_logic(state, world), "or")
+
+    # Expert: Time Rift - Curly Tail Trail with nothing
+    # Time Rift - Twilight Bell and Time Rift - Village with nothing
+    add_rule(world.multiworld.get_location("Act Completion (Time Rift - Curly Tail Trail)", world.player),
+             lambda state: glitch_logic(state, world), "or")
+
+    add_rule(world.multiworld.get_location("Act Completion (Time Rift - Village)", world.player),
+             lambda state: glitch_logic(state, world), "or")
+    add_rule(world.multiworld.get_location("Act Completion (Time Rift - The Twilight Bell)", world.player),
+             lambda state: glitch_logic(state, world), "or")
+
+    # Expert: Cherry Hovering
+    # Skipping the boss firewall is possible with a Cherry Hover.
+    add_rule(world.get_entrance("SF Area -> SF Behind Boss Firewall"),
+             lambda state: has_paintings(state, world, 1, True) and glitch_logic(state, world), "or")
+    # The boss arena gap can be crossed in reverse with a Cherry Hover.
+    # TODO: Figure out how to do the below connections in a way that only works with glitched logic
+    # Particularly since there's even a function defined here...
+    # subcon_boss_arena = world.get_region("Subcon Forest Boss Arena")
+    # subcon_behind_boss_firewall = world.get_region("Subcon Forest Behind Boss Firewall")
+    # subcon_boss_arena.connect(subcon_behind_boss_firewall, "SF Boss Arena -> SF Behind Boss Firewall")
+
+    # subcon_area = world.get_region("Subcon Forest Area")
+
+    # # The boss firewall can be skipped in reverse with a Cherry Hover, but it is not possible to remove the boss
+    # # firewall from reverse because the paintings to burn to remove the firewall are on the other side of the firewall.
+    # # Therefore, a painting skip is required. The paintings could be burned by already having access to
+    # # "Subcon Forest Area" through another entrance, but making a new connection to "Subcon Forest Area" in that case
+    # # would be pointless.
+    # if not world.options.NoPaintingSkips:
+        # # The import cannot be done at the module-level because it would cause a circular import.
+        # from .Regions import get_region_shuffled_to
+
+        # subcon_behind_boss_firewall.connect(subcon_area, "SF Behind Boss Firewall -> SF Area")
+
+        # # Because the Your Contract has Expired entrance can now reach "Subcon Forest Area", it needs to be connected to
+        # # each of the Subcon Forest Time Rift entrances, like the other Subcon Forest Acts.
+        # yche = world.get_region("Your Contract has Expired")
+
+        # def connect_to_shuffled_act_at(original_act_name):
+            # region_name = get_region_shuffled_to(world, original_act_name)
+            # return yche.connect(world.get_region(region_name), f"{original_act_name} Portal - Entrance YCHE")
+
+        # # Rules copied from `Rules.set_rift_rules()` with painting logic removed because painting skips must be
+        # # available.
+        # entrance = connect_to_shuffled_act_at("Time Rift - Pipe")
+        # add_rule(entrance, lambda state: can_clear_required_act(state, world, "Subcon Forest - Act 2"))
+        # reg_act_connection(world, world.get_entrance("Subcon Forest - Act 2").connected_region, entrance)
+
+        # entrance = connect_to_shuffled_act_at("Time Rift - Village")
+        # add_rule(entrance, lambda state: can_clear_required_act(state, world, "Subcon Forest - Act 4"))
+        # reg_act_connection(world, world.get_entrance("Subcon Forest - Act 4").connected_region, entrance)
+
+        # entrance = connect_to_shuffled_act_at("Time Rift - Sleepy Subcon")
+        # add_rule(entrance, lambda state: has_relic_combo(state, world, "UFO"))
+
+    add_rule(world.multiworld.get_location("Act Completion (Toilet of Doom)", world.player),
+             lambda state: can_use_hookshot(state, world) and can_hit(state, world)
+             and has_paintings(state, world, 1, True) and glitch_logic(state, world), "or")
+
+    # Set painting rules only. Skipping paintings is determined in has_paintings
+    add_rule(world.multiworld.get_location("Subcon Forest - Magnet Badge Bush", world.player),
+             lambda state: has_paintings(state, world, 3, True) and glitch_logic(state, world), "or")
+
+    # You can cherry hover to Snatcher's post-fight cutscene, which completes the level without having to fight him
+    # TODO: same as above, figure out how to deal with this
+    # yche_post_fight = world.get_region("Your Contract has Expired - Post Fight")
+    # subcon_area.connect(yche_post_fight, "Snatcher Hover")
+    # Cherry Hover from YCHE also works, so there are no requirements for the Act Completion.
+    add_rule(world.get_location("Act Completion (Your Contract has Expired)"), 
+             lambda state: glitch_logic(state, world), "or")
+
+    if world.is_dlc2():
+        # Expert: clear Rush Hour with nothing
+        if world.options.NoTicketSkips != NoTicketSkips.option_true:
+            add_rule(world.multiworld.get_location("Act Completion (Rush Hour)", world.player), 
+                     lambda state: glitch_logic(state, world), "or")
+        else:
+            add_rule(world.multiworld.get_location("Act Completion (Rush Hour)", world.player),
+                     lambda state: state.has("Metro Ticket - Yellow", world.player)
+                     and state.has("Metro Ticket - Blue", world.player)
+                     and state.has("Metro Ticket - Pink", world.player) and glitch_logic(state, world), "or")
+
+        # Expert: Yellow/Green Manhole with nothing using a Boop Clip
+        add_rule(world.multiworld.get_location("Act Completion (Yellow Overpass Manhole)", world.player),
+                 lambda state: glitch_logic(state, world), "or")
+        add_rule(world.multiworld.get_location("Act Completion (Green Clean Manhole)", world.player),
+                 lambda state: glitch_logic(state, world), "or")
 
 
 def set_mafia_town_rules(world: "HatInTimeWorld"):
