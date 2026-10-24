@@ -19,6 +19,103 @@ except ModuleNotFoundError:
 
 DEBUG = False
 
+# TODO: move mapping dicts to another file?
+# NOTE: Em pointed out that most of the mappings basically exist already in spaceship_overview
+# poptracker_name_mapping = {
+    # # TODO: add loc ids
+    # # Alpine Skyline
+    # "Goat Village/Below Hookpoint":
+    # "Goat Village/Hidden Branch":
+    # # TODO: Figure out if/how to handle Badge Seller
+    # #"Badge Seller/Scammed":
+    # "Bird Pass Fork/Yarn":
+    # "Yellow Band Hills/Yarn":
+    # "Purrloined Village: Horned Stone/Token":
+    # "Purrloined Village: Chest Reward/Token":
+    # "Bird House/Triple Crow Chest":
+    # "Bird House/Brewing Crate House"
+    # "Bird House/Hay Bale"
+    # "Bird House/Alpine Crow Mini-Gauntlet"
+    # "Bird House/Outer Edge"
+    # "Bird House/Time Piece"
+    # "The Twilight Path/Token"
+    # "The Twilight Bell/Wide Purple Platform"
+    # "The Twilight Bell/Ice Platform"
+    # "The Twilight Bell/Time Piece"
+    # "Mystifying Time Mesa: Zipline/Token"
+    # "Mystifying Time Mesa: Gate Puzzle/Relic"
+    # "Ember Summit/Yarn"
+    # "Lava Cake/Center Fence Cage"
+    # "Lava Cake/Dweller Pillars"
+    # "Lava Cake/Outer Island Chest"
+    # "Lava Cake/Top Cake"
+    # "Lava Cake/Time Piece"
+    # "Goat Outpost Horn/Yarn"
+    # "Windy Passage/Yarn"
+    # "The Windmill/Entrance"
+    # "The Windmill/Inside Pon Cluster"
+    # "The Windmill/Dropdown"
+    # "The Windmill/House Window"
+    # "The Windmill/Time Piece"
+    # "Goat Refinery/Yarn"
+    # "The Illness has Spread/Time Piece"
+    # "The Twilight Bell (Rift)/Time Rift"
+    # "Curly Tail Trail/Time Rift"
+    # "Alpine Skyline (Rift)/Time Rift"
+    # # TODO: Figure out how to handle the Rift pages. UT doesn't support count
+
+    # # Dead Bird Basement
+    # "Small Room/Token"
+    # "Vent Pipe/Yarn"
+    # "Logo Wall/Yarn"
+    # "Cardboard Conductor/Yarn"
+    # "Above Conductor Sign/Yarn"
+    # "Tightrope/Yarn"
+    # "Window Platform/Yarn"
+    # "Cameras/Yarn"
+    # "Disco Room/Yarn"
+    # "Locked Room/Relic"
+    # "Act Completion/Time Piece"
+    
+    # # The Arctic Cruise
+    # "Lamp Post Top/Relic"
+    # "Mafia Cargo Ship/Token"
+    # "Control Room/Bon Voyage!"
+    # "Toilet/Relic"
+    # "Bar/Token"
+    # "Dive Board Ledge/Token"
+    # "Top Balcony/Token"
+    # "Octopus Room/Relic"
+    # "Octopus Room Top/Token"
+    # "Laundry Room/Token"
+    # "Ship Side/Token"
+    # "Silver Ring/Relic"
+    # # TODO: Figure out if/how to handle badge seller
+    # # "Badge Seller/Scammed"
+    # "Lost and Found/Ship Shape"
+    # "Reception Room/Suitcase"
+    # "Reception Room/Under Desk"
+    # "Lamp Post/Token"
+    # "Iceberg Top/Token"
+    # "Post Captain Rescue/Time Piece"
+    # "Post Captain Rescue/Behind Iceberg"
+    # "Deep Sea/Time Rift"
+    # # TODO: Figure out how to handle Deep Sea Rift pages
+    # "Balcony/Time Rift"
+    
+    # # Dead Bird Studio
+    # "Act Completion/Dead Bird Studio"
+    # "Act Completion/Award Ceremony"
+    # "Picture Perfect/Time Piece"
+    # "Picture Perfect - Behind Badge Seller/Yarn"
+    # "Picture Perfect - Hats Buy Building/Yarn"
+    # # TODO: Figure out if/how to handle Badge Seller
+    # # "Badge Seller/Scammed"
+    # # TODO: Figure out if/how UT handles the weird token 1-8 internal and reference thing
+    # # TODO: Continue at locations deadbirdstudio
+# }
+
+# TODO: Add poptracker_entrance_mapping
 
 class AHITJSONToTextParser(JSONtoTextParser):
     def _handle_color(self, node: JSONMessagePart):

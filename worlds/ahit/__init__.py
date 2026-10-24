@@ -11,9 +11,10 @@ from .DeathWishLocations import create_dw_regions, dw_classes, death_wishes
 from .DeathWishRules import set_dw_rules, create_enemy_events, hit_list, bosses
 from worlds.AutoWorld import World, WebWorld, CollectionState
 from worlds.generic.Rules import add_rule
-from typing import List, Dict, TextIO, Any
+from typing import List, Dict, TextIO, Any, ClassVar
 from worlds.LauncherComponents import Component, components, icon_paths, launch as launch_component, Type
 from Utils import local_path
+from settings import Group, FilePath
 
 
 def launch_client(*args: str):
@@ -40,6 +41,28 @@ class AWebInTime(WebWorld):
     )]
 
 
+# Basically copied from https://github.com/ArsonAssassin/DSAP/commit/62b0c4d87483977e86fdfba2229259ec581c4fdb
+class AHITSettings(Group):
+    class UTPoptrackerPath(FilePath):
+        """Path to the user's AHIT Poptracker Pack."""
+        description= "AHIT Poptracker Pack zip file"
+        required = False
+    ut_poptracker_path: UTPoptrackerPath | str = UTPoptrackerPath()
+
+# TODO: Move?
+# map_page_locations = [
+    # "locations/spaceship_overview.json",
+    # "locations/alpineskyline.json",
+    # "locations/basement.json",
+    # "locations/cruise.json",
+    # "locations/deadbirdstudio.json",
+    # "locations/deathwish.json",
+    # "locations/mafiatown.json",
+    # "locations/nyakuza.json",
+    # "locations/spaceship.json",
+    # "locations/subcon.json"
+# ]
+
 class HatInTimeWorld(World):
     """
     A Hat in Time is a cute-as-peck 3D platformer featuring a little girl who stitches hats for wicked powers!
@@ -57,6 +80,13 @@ class HatInTimeWorld(World):
     # UT integration
     ut_can_gen_without_yaml = True
     glitches_item_name = "Level Up"
+    settings: ClassVar[AHITSettings]
+    tracker_world: ClassVar = {
+        "map_page_maps" : "maps/maps.json",
+        "map_page_locations" : "locations/spaceship_overview.json", # map_page_locations,
+        #"map_page_layouts" : "layouts/map_tabs.json",
+        "external_pack_key" : "ut_poptracker_path"
+    }
 
     def __init__(self, multiworld: "MultiWorld", player: int):
         super().__init__(multiworld, player)
