@@ -288,11 +288,70 @@ tracker_name_mapping = {
     "The Illness has Spread/Time Piece" : 2000312022,
     "The Twilight Bell (Rift)/Time Rift" : 2000312399,
     "Curly Tail Trail/Time Rift" : 2000313335,
-    "Alpine Skyline (Rift)/Time Rift" : 2000311777
+    "Alpine Skyline (Rift)/Time Rift" : 2000311777,
     # "Alpine Skyline (Rift)/Pages" TODO: ???
     
-    # TODO: Continue from overview chapt 6, make sure to add comma above
-    # Where is the finale?
+    # The Arctic Cruise
+    "Control Room/Bon Voyage!" : 2000311520,
+    "Lamp Post Top/Relic" : 2000305321,
+    "Mafia Cargo Ship/Token" : 2000304313,
+    "Lost and Found/Ship Shape" : 2000311451,
+    # "Lost and Found/Tasksanity Check" : TODO: ???
+    "Post Captain Rescue/Time Piece" : 2000311437,
+    "Reception Room/Suitcase" : 2000304045,
+    "Reception Room/Under Desk" : 2000304047,
+    "Lamp Post/Token" : 2000304048,
+    "Iceberg Top/Token" : 2000304046,
+    "Post Captain Rescue/Behind Iceberg" : 2000304049,
+    "Balcony/Time Rift" : 2000312226,
+    "Deep Sea/Time Rift" : 2000312434,
+    # "Deep Sea/Pages (Starfish, Mini Castle, Urchins)" TODO: ???
+    # "Deep Sea/Pages (Other)" TODO: ???
+    "Toilet/Relic" : 2000305109,
+    "Bar/Token" : 2000304251,
+    "Dive Board Ledge/Token" : 2000304254,
+    "Top Balcony/Token" : 2000304255,
+    "Octopus Room/Relic" : 2000305253,
+    "Octopus Room Top/Token" : 2000304249,
+    "Laundry Room/Token" : 2000304250,
+    "Ship Side/Token" : 2000304247,
+    "Silver Ring/Relic" : 2000305252,
+    
+    # Nyakuza Metro
+    "Nyakuza Metro Intro/Time Piece" : 2000311138,
+    "Main Station Dining Area/Rift Token" : 2000304105,
+    "Top of the Ramen Shop/Rift Token" : 2000304104,
+    # "Main Station Thugs/Thug A" : TODO: ???
+    # "Main Station Thugs/Thug B" : TODO: ???
+    # "Main Station Thugs/Thug C" : TODO: ???
+    "Yellow Overpass Station/Time Piece" : 2000311206,
+    "Yellow Overpass Manhole/Time Piece" : 2000311387,
+    "Yellow Overpass Station - Brewing Crate/Relic" : 2000305413,
+    "Yellow Overpass Station/Yellow Metro Ticket" : 2000301014,
+    # "Yellow Overpass Thug A/Scammed" : TODO: ???
+    # "Yellow Overpass Thug B/Scammed" : TODO: ???
+    # "Yellow Overpass Thug C/Scammed" : TODO: ???
+    "Green Clean Station/Time Piece" : 2000311207,
+    "Green Clean Manhole/Time Piece" : 2000311388,
+    "Green Ticket Booth/Green Ticket" : 2000301015,
+    # "Green Clean Thug A/Scammed" : TODO: ???
+    # "Green Clean Thug B/Scammed" : TODO: ???
+    "Bluefin Tunnel/Time Piece" : 2000311208,
+    "Bluefin Tunnel - Cat Vacuum/Relic" : 2000305111,
+    "Blue Ticket Booth/Blue Ticket" : 2000301016,
+    # "Bluefin Tunnel Thug/Scammed" : TODO: ???
+    "Pink Paw Station/Time Piece" : 2000311209,
+    "Pink Paw Manhole/Time Piece" : 2000311389,
+    "Pink Paw Station - Cat Vacuum/Rift Token" : 2000305110,
+    "Pink Paw Station - Behind Fan/Rift Token" : 2000304106,
+    "Pink Ticket Booth/Pink Ticket" : 2000301017,
+    # "Pink Paw Station Thug/Scammed" : TODO: 
+    "Rush Hour/Time Piece" : 2000311210,
+    "Rumbi Factory/Time Rift" : 2000312736
+    # "Rumbi Factory/Pages" TODO: ???
+    
+    # TODO: Continue from uhh... check Em's stuff, make sure to add comma above as needed
+    # Where is the finale? And Rumbi abuse?
     
 }
 
