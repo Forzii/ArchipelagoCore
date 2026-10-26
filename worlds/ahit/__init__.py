@@ -42,6 +42,7 @@ class AWebInTime(WebWorld):
 
 
 # Basically copied from https://github.com/ArsonAssassin/DSAP/commit/62b0c4d87483977e86fdfba2229259ec581c4fdb
+# TODO: Is there a way to make it only prompt when people want it to? Is that desirable over auto-prompt?
 class AHITSettings(Group):
     class UTPoptrackerPath(FilePath):
         """Path to the user's AHIT Poptracker Pack."""
@@ -248,9 +249,50 @@ tracker_name_mapping = {
     "Ice Cube Shack/Token" : 2000324465,
     "Long Tree Climb Chest/Yarn" : 2000323734,
     "Boss Arena Chest/Yarn" : 2000323735,
-    "Queen Vanessa's Manor/Rooftop" : 2000325466
+    "Queen Vanessa's Manor/Rooftop" : 2000325466,
     
-    #TODO: Continue from overview chapt 3, make sure to add comma above
+    # Alpine Skyline
+    "Goat Village/Below Hookpoint" : 2000334856,
+    "Goat Village/Hidden Branch" : 2000334855,
+    "Goat Refinery/Yarn" : 2000333635,
+    "Bird House/Time Piece" : 2000311428,
+    "Bird Pass Fork/Yarn" : 2000335911,
+    "Yellow Band Hills/Yarn" : 2000335756,
+    "Purrloined Village: Horned Stone/Token" : 2000335561,
+    "Purrloined Village: Chest Reward/Token" : 2000334831,
+    "Bird House/Triple Crow Chest" : 2000334758,
+    "Bird House/Dweller Platforms Relic" : 2000336497,
+    "Bird House/Brewing Crate House" : 2000336496,
+    "Bird House/Hay Bale" : 2000335885,
+    "Bird House/Alpine Crow Mini-Gauntlet" : 2000335886,
+    "Bird House/Outer Edge" : 2000335492,
+    "Lava Cake/Time Piece" : 2000312509,
+    "Mystifying Time Mesa: Zipline/Token" : 2000337058,
+    "Mystifying Time Mesa: Gate Puzzle/Relic" : 2000336052,
+    "Ember Summit/Yarn" : 2000336311,
+    "Lava Cake/Center Fence Cage" : 2000335448,
+    "Lava Cake/Outer Island Chest" : 2000334291,
+    "Lava Cake/Dweller Pillars" : 2000335417,
+    "Lava Cake/Top Cake" : 2000335418,
+    "The Twilight Bell/Time Piece" : 2000311540,
+    "The Twilight Path/Token" : 2000334434,
+    "The Twilight Bell/Wide Purple Platform" : 2000336478,
+    "The Twilight Bell/Ice Platform" : 2000335826,
+    "The Windmill/Time Piece" : 2000312263,
+    "Goat Outpost Horn/Yarn" : 2000334760,
+    "Windy Passage/Yarn" : 2000334776,
+    "The Windmill/Inside Pon Cluster" : 2000336395,
+    "The Windmill/Entrance" : 2000335783,
+    "The Windmill/Dropdown" : 2000335815,
+    "The Windmill/House Window" : 2000335389,
+    "The Illness has Spread/Time Piece" : 2000312022,
+    "The Twilight Bell (Rift)/Time Rift" : 2000312399,
+    "Curly Tail Trail/Time Rift" : 2000313335,
+    "Alpine Skyline (Rift)/Time Rift" : 2000311777
+    # "Alpine Skyline (Rift)/Pages" TODO: ???
+    
+    # TODO: Continue from overview chapt 6, make sure to add comma above
+    # Where is the finale?
     
 }
 
