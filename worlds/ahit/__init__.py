@@ -68,7 +68,7 @@ map_page_locations = [
 # TODO: Deal with the abbreviated ones Em mentioned
 tracker_name_mapping = {
     # TODO: add loc ids
-    
+
     # Mafia Town
     "Welcome to Mafia Town/Time Piece" : 2000311771,
     "Welcome to Mafia Town/Umbrella" : 2000301002,
@@ -124,7 +124,7 @@ tracker_name_mapping = {
     "Top of Lighthouse/Token" : 2000304213,
     "Mafia Geek Platform/Token" : 2000304212,
     "Mafia HQ/Behind HQ Chest" : 2000303486,
-    
+
     # Battle of the Birds
     "Act Completion/Dead Bird Studio" : 2000311383,
     "Up the Ladder/Yarn" : 2000304874,
@@ -190,7 +190,7 @@ tracker_name_mapping = {
     "The Moon/Time Rift" : 2000312785,
     "Dead Bird Studio (Rift)/Time Piece" : 2000312577,
     # "Dead Bird Studio (Rift)/Pages" TODO: Decide how to handle this
-    
+
     # Subcon Forest
     "Contractual Obligations/Time Piece" : 2000312317,
     "Snatcher/Contract - The Subcon Well" : 2000300200,
@@ -250,7 +250,7 @@ tracker_name_mapping = {
     "Long Tree Climb Chest/Yarn" : 2000323734,
     "Boss Arena Chest/Yarn" : 2000323735,
     "Queen Vanessa's Manor/Rooftop" : 2000325466,
-    
+
     # Alpine Skyline
     "Goat Village/Below Hookpoint" : 2000334856,
     "Goat Village/Hidden Branch" : 2000334855,
@@ -290,7 +290,7 @@ tracker_name_mapping = {
     "Curly Tail Trail/Time Rift" : 2000313335,
     "Alpine Skyline (Rift)/Time Rift" : 2000311777,
     # "Alpine Skyline (Rift)/Pages" TODO: ???
-    
+
     # The Arctic Cruise
     "Control Room/Bon Voyage!" : 2000311520,
     "Lamp Post Top/Relic" : 2000305321,
@@ -316,7 +316,7 @@ tracker_name_mapping = {
     "Laundry Room/Token" : 2000304250,
     "Ship Side/Token" : 2000304247,
     "Silver Ring/Relic" : 2000305252,
-    
+
     # Nyakuza Metro
     "Nyakuza Metro Intro/Time Piece" : 2000311138,
     "Main Station Dining Area/Rift Token" : 2000304105,
@@ -345,14 +345,14 @@ tracker_name_mapping = {
     "Pink Paw Station - Cat Vacuum/Rift Token" : 2000305110,
     "Pink Paw Station - Behind Fan/Rift Token" : 2000304106,
     "Pink Ticket Booth/Pink Ticket" : 2000301017,
-    # "Pink Paw Station Thug/Scammed" : TODO: 
+    # "Pink Paw Station Thug/Scammed" : TODO:
     "Rush Hour/Time Piece" : 2000311210,
     "Rumbi Factory/Time Rift" : 2000312736
     # "Rumbi Factory/Pages" TODO: ???
-    
+
     # TODO: Continue from uhh... check Em's stuff, make sure to add comma above as needed
     # Where is the finale? And Rumbi abuse?
-    
+
 }
 
 # TODO: Add poptracker_entrance_mapping?
@@ -407,7 +407,7 @@ class HatInTimeWorld(World):
         self.dw_shuffle: List[str] = []
         self.nyakuza_thug_items: Dict[str, int] = {}
         self.badge_seller_count: int = 0
-        
+
         # UT generation
         self.fake_gen = getattr(self.multiworld, "generation_is_fake",False)
 
@@ -487,7 +487,7 @@ class HatInTimeWorld(World):
                     else:
                         # No more dw in slot data
                         break
-            
+
             # TODO: Remove
             # print("Options:")
             # print(vars(self.options))
@@ -820,10 +820,8 @@ class HatInTimeWorld(World):
         # TODO: Add any Logic explanation overrides desired (I likely won't do this)
 
         # TODO: Consider optimizations, cleaner code, make sure changes are clean and meet AP style standards
-        
-        # TODO: Add hint colors to AHIT client UT integration? Is that already there by default?
-        
+
         # TODO: Consider refactor to Rule Builder to greatly improve/streamline glitch logic. (I likely won't do this, but maybe!)
         # Would need core PR 6401 to mostly follow existing logic using add_rule, would allow for an easier but less clean/ideal refactor
-        
+
         # TODO: add more item groups? Like Relics, Hats, Yarn, Timepieces, etc?
