@@ -5,6 +5,7 @@ from .Types import HatType, ChapterIndex, hat_type_to_item, Difficulty, HitType
 from BaseClasses import Location, Entrance, Region
 from typing import TYPE_CHECKING, List, Callable, Union, Dict
 from .Options import EndGoal, CTRLogic, NoTicketSkips
+from rule_builder.rules import Has
 
 if TYPE_CHECKING:
     from . import HatInTimeWorld
@@ -34,10 +35,10 @@ act_connections = {
 }
 
 
-# TODO: find a better way to do this
+# TODO: find a better way to do this. Maybe just use state.has in the lambda rule at this point...
 def glitch_logic(state: CollectionState, world: "HatInTimeWorld"):
     # if world.fake_gen:
-    return state.has("Level Up", world.player)
+    return state.has(world.glitches_item_name, world.player)
     # else:
         # return False
 
@@ -887,9 +888,11 @@ def set_glitched_expert_rules(world: "HatInTimeWorld"):
     # The boss arena gap can be crossed in reverse with a Cherry Hover.
     # TODO: Figure out how to do the below connections in a way that only works with glitched logic
     # Particularly since there's even a function defined here...
-    # subcon_boss_arena = world.get_region("Subcon Forest Boss Arena")
-    # subcon_behind_boss_firewall = world.get_region("Subcon Forest Behind Boss Firewall")
-    # subcon_boss_arena.connect(subcon_behind_boss_firewall, "SF Boss Arena -> SF Behind Boss Firewall")
+    # Still not sure what to do about the function yet, but I think adding a rule to the new entrances like below will work
+    subcon_boss_arena = world.get_region("Subcon Forest Boss Arena")
+    subcon_behind_boss_firewall = world.get_region("Subcon Forest Behind Boss Firewall")
+    subcon_boss_arena.connect(subcon_behind_boss_firewall, "SF Boss Arena -> SF Behind Boss Firewall",
+                              Has(world.glitches_item_name))
 
     # subcon_area = world.get_region("Subcon Forest Area")
 

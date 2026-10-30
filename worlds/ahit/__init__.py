@@ -9,12 +9,12 @@ from .Options import AHITOptions, slot_data_options, adjust_options, RandomizeHa
 from .Types import HatType, ChapterIndex, HatInTimeItem, hat_type_to_item, Difficulty
 from .DeathWishLocations import create_dw_regions, dw_classes, death_wishes
 from .DeathWishRules import set_dw_rules, create_enemy_events, hit_list, bosses
+from .Tracker import map_page_locations, tracker_name_mapping, AHITSettings
 from worlds.AutoWorld import World, WebWorld, CollectionState
 from worlds.generic.Rules import add_rule
 from typing import List, Dict, TextIO, Any, ClassVar
 from worlds.LauncherComponents import Component, components, icon_paths, launch as launch_component, Type
 from Utils import local_path
-from settings import Group, FilePath
 
 
 def launch_client(*args: str):
@@ -41,322 +41,6 @@ class AWebInTime(WebWorld):
     )]
 
 
-# Basically copied from https://github.com/ArsonAssassin/DSAP/commit/62b0c4d87483977e86fdfba2229259ec581c4fdb
-# TODO: Is there a way to make it only prompt when people want it to? Is that desirable over auto-prompt?
-class AHITSettings(Group):
-    class UTPoptrackerPath(FilePath):
-        """Path to the user's AHIT Poptracker Pack."""
-        description= "AHIT Poptracker Pack zip file"
-        required = False
-    ut_poptracker_path: UTPoptrackerPath | str = UTPoptrackerPath()
-
-# TODO: Move?
-map_page_locations = [
-    "locations/spaceship_overview.json",
-    "locations/alpineskyline.json",
-    "locations/basement.json",
-    "locations/cruise.json",
-    "locations/deadbirdstudio.json",
-    # "locations/deathwish.json", # Has comments in the file, UT can't parse
-    # "locations/mafiatown.json", # Has comments in the file
-    "locations/nyakuza.json",
-    # "locations/spaceship.json", # Has commnets in the file
-    "locations/subcon.json"
-]
-
-# TODO: move mapping dicts to another file
-# TODO: Deal with the abbreviated ones Em mentioned
-tracker_name_mapping = {
-    # TODO: add loc ids
-
-    # Mafia Town
-    "Welcome to Mafia Town/Time Piece" : 2000311771,
-    "Welcome to Mafia Town/Umbrella" : 2000301002,
-    "Barrel Battle/Time Piece" : 2000311958,
-    "Mafia Geek/She Came from Outer Space" : 2000312262,
-    "Mafia HQ/Time Piece" : 2000311326,
-    "Mafia HQ/Hallway Brewing Crate" : 2000305387,
-    "Mafia HQ/Freezer Chest" : 2000303241,
-    "Mafia HQ/Secret Room" : 2000304979,
-    "Mafia HQ/Bathroom Stall Chest" : 2000303243,
-    "Beach Alcove/Cheating the Race" : 2000312318,
-    "Mafia Geek/Heating Up Mafia Town" : 2000311481,
-    "The Golden Vault/Time Piece" : 2000312250,
-    "Bazaar/Time Rift" : 2000312465,
-    "Sewers/Time Rift" : 2000312484,
-    "Mafia of Cooks/Time Rift" : 2000311855,
-    # "Mafia of Cooks/Pages" # TODO: Decide how to handle
-    "Red Vault/Yarn" : 2000302848,
-    "Dweller Boxes/Yarn" : 2000304462,
-    "Old Man 2/Seaside Spaghetti" : 2000303833,
-    "Ledge Chest/Yarn" : 2000303530,
-    "Yellow Sphere Building Chest/Yarn" : 2000303535,
-    "Beneath Scaffolding/Yarn" : 2000304456,
-    "On Scaffolding/Yarn" : 2000304457,
-    "Plaza Under Boxes/Yarn" : 2000304458,
-    "Blue Vault/Brewing Crate" : 2000305572,
-    "Small Boat/Yarn" : 2000304460,
-    "Cargo Ship/Yarn" : 2000304459,
-    "Beach Alcove/Yarn" : 2000304463,
-    "Steel Beams/Wood Cage" : 2000304606,
-    "Staircase Pon Cluster/Yarn" : 2000304611,
-    "Blue Vault/Vault" : 2000302850,
-    "Old Man/Yarn" : 2000303832,
-    "Palm Tree/Yarn" : 2000304609,
-    "Beach Patio/Freestanding" : 2000304610,
-    "Steel Beams/Nest" : 2000304608,
-    "Top of Ruined Tower/Yarn" : 2000304607,
-    "Ice Hat Cage/Yarn" : 2000304831,
-    "Hot Air Balloon/Yarn" : 2000304829,
-    "Camera Badge/smile :)" : 2000302003,
-    "Camera Badge 2/smile :)" : 2000302004,
-    "Chest Beneath Aqueduct/Relic" : 2000303489,
-    "Secret Cave/Relic" : 2000305220,
-    "Crow Chest/Relic" : 2000303532,
-    "Port/Relic" : 2000305219,
-    "Docks Chest/Relic" : 2000303534,
-    "Above Boats/Relic" : 2000305218,
-    "Beach Patio/Slip Slide Chest" : 2000303529,
-    "Green Vault/Token" : 2000302851,
-    "Behind Faucet/Token" : 2000304214,
-    "Hidden Buttons/Grab a beach ball" : 2000303483,
-    "Clock Tower Chest/Token" : 2000303481,
-    "Top of Lighthouse/Token" : 2000304213,
-    "Mafia Geek Platform/Token" : 2000304212,
-    "Mafia HQ/Behind HQ Chest" : 2000303486,
-
-    # Battle of the Birds
-    "Act Completion/Dead Bird Studio" : 2000311383,
-    "Up the Ladder/Yarn" : 2000304874,
-    "DJ Grooves Sign Chest/Yarn" : 2000303901,
-    "Red Building Top/Yarn" : 2000305024,
-    "Behind Water Tower/Yarn" : 2000305248,
-    "Side of House/Yarn" : 2000305247,
-    "Tightrope Chest/Relic" : 2000303898,
-    "Teepee Chest/Relic" : 2000303899,
-    "Conductor Chest/Token" : 2000303900,
-    # "Act Completion/Time Piece" # Oh boy, is this unique? TODO: ??
-    "Cafeteria/Yarn" : 2000305313,
-    "Luggage Room Top/Yarn" : 2000305090,
-    "Luggage Room Bottom/Yarn" : 2000305091,
-    "Raven Suite/Room" : 2000305701,
-    "Raven Suite/Top" : 2000305312,
-    "Lounge Chest/Token" : 2000303963,
-    # TODO: Verify these actually show up
-    "Conductor Token: Cafeteria/" : 2001104767,
-    "Conductor Token: Recreational Room/" : 2001104768,
-    "Picture Perfect/Time Piece" : 2000311587,
-    "Picture Perfect - Behind Badge Seller/Yarn" : 2000304307,
-    "Picture Perfect - Hats Buy Building/Yarn" : 2000304530,
-    "Picture Perfect - DJ Grooves Token: Cardboard Puppy/" : 2001203990,
-    "Picture Perfect - DJ Grooves Token: Card Guessing Game/" : 2001203991,
-    "Picture Perfect - DJ Grooves Token: Back Alley/" : 2001203992,
-    "Picture Perfect - DJ Grooves Token: Cooking Show/" : 2001203993,
-    "Picture Perfect - DJ Grooves Token: Pon Cluster/" : 2001203987,
-    "Train Rush/Time Piece" : 2000312481,
-    "Time Bonus: 1st Room/" : 2001305235,
-    "Time Bonus: Falling Platform/" : 2001305189,
-    "Time Bonus: Acid Crates/" : 2001305186,
-    "Time Bonus: Balloon/" : 2001305239,
-    "Time Bonus: Ring of Fire/" : 2001305237,
-    "Time Bonus: Blue Panels/" : 2001305236,
-    "Time Bonus: Sinking Lava Platform/" : 2001305234,
-    "Time Bonus: Lava Panels 1/" : 2001305193,
-    "Time Bonus: Lava Panels 2/" : 2001305190,
-    "Time Bonus: Lava Panels 3/" : 2001305238,
-    "The Big Parade/Time Piece" : 2000311157,
-    # TODO: Figure out why the tokens don't show up. Probably the internal
-    "The Big Parade - DJ Grooves Tokens (Internal)/Token 1" : 2001400000,
-    "The Big Parade - DJ Grooves Tokens (Internal)/Token 2" : 2001400001,
-    "The Big Parade - DJ Grooves Tokens (Internal)/Token 3" : 2001400002,
-    "The Big Parade - DJ Grooves Tokens (Internal)/Token 4" : 2001400003,
-    "The Big Parade - DJ Grooves Tokens (Internal)/Token 5" : 2001400004,
-    "The Big Parade - DJ Grooves Tokens (Internal)/Token 6" : 2001400005,
-    "The Big Parade - DJ Grooves Tokens (Internal)/Token 7" : 2001400006,
-    "The Big Parade - DJ Grooves Tokens (Internal)/Token 8" : 2001400007,
-    "Act Completion/Award Ceremony" : 2000311488,
-    # "Act Completion/Time Piece" # Yep, not unique... TODO: how?
-    "Window Platform/Yarn" : 2000305432,
-    "Cardboard Conductor/Yarn" : 2000305059,
-    "Above Conductor Sign/Yarn" : 2000305057,
-    "Logo Wall/Yarn" : 2000305207,
-    "Disco Room/Yarn" : 2000305061,
-    "Small Room/Token" : 2000304813,
-    "Vent Pipe/Yarn" : 2000305430,
-    "Tightrope/Yarn" : 2000305058,
-    "Cameras/Yarn" : 2000305431,
-    "Locked Room/Relic" : 2000305819,
-    "The Owl Express/Time Rift" : 2000312807,
-    "The Moon/Time Rift" : 2000312785,
-    "Dead Bird Studio (Rift)/Time Piece" : 2000312577,
-    # "Dead Bird Studio (Rift)/Pages" TODO: Decide how to handle this
-
-    # Subcon Forest
-    "Contractual Obligations/Time Piece" : 2000312317,
-    "Snatcher/Contract - The Subcon Well" : 2000300200,
-    "Cherry Bomb Bone Cage/Yarn" : 2000324761,
-    "Subcon Well/Time Piece" : 2000311160,
-    "Subcon Well/Hookshot Badge Chest" : 2000324114,
-    "Subcon Well/Above Chest" : 2000324612,
-    "Subcon Well/On Pipe" : 2000324311,
-    "Subcon Well/Mushroom" : 2000325318,
-    "Boss Arena/Toilet of Doom" : 2000311984,
-    "Queen Vanessa's Manor/Time Piece" : 2000312017,
-    "Queen Vanessa's Manor/Cellar" : 2000324841,
-    "Queen Vanessa's Manor/Bedroom Chest" : 2000323808,
-    "Queen Vanessa's Manor/Hall Chest" : 2000323896,
-    "Queen Vanessa's Manor/Chandelier" : 2000325546,
-    "Snatcher/Mail Delivery Service" : 2000312032,
-    "Boss Arena/Your Contract has Expired" : 2000311390,
-    "Pipe/Time Rift" : 2000313069,
-    "Village/Time Rift" : 2000313056,
-    "Sleepy Subcon/Time Rift" : 2000312086,
-    # "Sleepy Subcon/Pages" TODO: decide how to handle
-    # "Snatcher/Contracts" : TODO: decide how to handle
-    "Tree Top Ice Cube/Yarn" : 2000325469,
-    "Graveyard/Ice Cube" : 2000325077,
-    "Graveyard/House Top" : 2000325471,
-    "Ice Cube House/Relic" : 2000325469,
-    "Snatcher Statue Chest/Yarn" : 2000323730,
-    "Stump Platform Chest/Yarn" : 2000323729,
-    "Giant Mushroom Climb/Don't Fall~" : 2000325470,
-    "Swamp Gravestone/Yarn" : 2000326296,
-    "Swamp Near Well/Token" : 2000324762,
-    "Swamp Tree A/Yarn" : 2000324763,
-    "Swamp Tree B/Yarn" : 2000324764,
-    "Swamp Ice Wall/Yarn" : 2000324706,
-    "Swamp Treehouse/Relic" : 2000325468,
-    "Swamp Tree Chest/Yarn" : 2000323728,
-    "Dweller Stump/Yarn" : 2000324767,
-    "Dweller Floating Rocks/Token" : 2000324464,
-    "Dweller Platforming Tree A/Yarn" : 2000324709,
-    "Dweller/Platforming Tree B" : 2000324855,
-    "Giant Time Piece/Relic" : 2000325473,
-    "Gallows/Relic" : 2000325472,
-    "Green and Purple Dweller Rocks/Yarn" : 2000325082,
-    "Dweller/Shack" : 2000324463,
-    "Tall Tree Hookshot Swing/Yarn" : 2000324766,
-    "Burning House/Yarn" : 2000324710,
-    "Burning Tree Climb/Yarn" : 2000325079,
-    "Burning Stump Chest/Token" : 2000323731,
-    "Burning Forest Treehouse/Relic" : 2000325467,
-    "Spider Bone Cage A/Token" : 2000324462,
-    "Spider Bone Cage B/Yarn" : 2000325080,
-    "Infinite Yarn Bush/Yarn" : 2000325478,
-    "Magnet Badge Bush/Badge" : 2000325479,
-    "Triple Spider Bounce/Yarn" : 2000324765,
-    "Noose Treehouse/Relic" : 2000324856,
-    "Ice Cube Shack/Token" : 2000324465,
-    "Long Tree Climb Chest/Yarn" : 2000323734,
-    "Boss Arena Chest/Yarn" : 2000323735,
-    "Queen Vanessa's Manor/Rooftop" : 2000325466,
-
-    # Alpine Skyline
-    "Goat Village/Below Hookpoint" : 2000334856,
-    "Goat Village/Hidden Branch" : 2000334855,
-    "Goat Refinery/Yarn" : 2000333635,
-    "Bird House/Time Piece" : 2000311428,
-    "Bird Pass Fork/Yarn" : 2000335911,
-    "Yellow Band Hills/Yarn" : 2000335756,
-    "Purrloined Village: Horned Stone/Token" : 2000335561,
-    "Purrloined Village: Chest Reward/Token" : 2000334831,
-    "Bird House/Triple Crow Chest" : 2000334758,
-    "Bird House/Dweller Platforms Relic" : 2000336497,
-    "Bird House/Brewing Crate House" : 2000336496,
-    "Bird House/Hay Bale" : 2000335885,
-    "Bird House/Alpine Crow Mini-Gauntlet" : 2000335886,
-    "Bird House/Outer Edge" : 2000335492,
-    "Lava Cake/Time Piece" : 2000312509,
-    "Mystifying Time Mesa: Zipline/Token" : 2000337058,
-    "Mystifying Time Mesa: Gate Puzzle/Relic" : 2000336052,
-    "Ember Summit/Yarn" : 2000336311,
-    "Lava Cake/Center Fence Cage" : 2000335448,
-    "Lava Cake/Outer Island Chest" : 2000334291,
-    "Lava Cake/Dweller Pillars" : 2000335417,
-    "Lava Cake/Top Cake" : 2000335418,
-    "The Twilight Bell/Time Piece" : 2000311540,
-    "The Twilight Path/Token" : 2000334434,
-    "The Twilight Bell/Wide Purple Platform" : 2000336478,
-    "The Twilight Bell/Ice Platform" : 2000335826,
-    "The Windmill/Time Piece" : 2000312263,
-    "Goat Outpost Horn/Yarn" : 2000334760,
-    "Windy Passage/Yarn" : 2000334776,
-    "The Windmill/Inside Pon Cluster" : 2000336395,
-    "The Windmill/Entrance" : 2000335783,
-    "The Windmill/Dropdown" : 2000335815,
-    "The Windmill/House Window" : 2000335389,
-    "The Illness has Spread/Time Piece" : 2000312022,
-    "The Twilight Bell (Rift)/Time Rift" : 2000312399,
-    "Curly Tail Trail/Time Rift" : 2000313335,
-    "Alpine Skyline (Rift)/Time Rift" : 2000311777,
-    # "Alpine Skyline (Rift)/Pages" TODO: ???
-
-    # The Arctic Cruise
-    "Control Room/Bon Voyage!" : 2000311520,
-    "Lamp Post Top/Relic" : 2000305321,
-    "Mafia Cargo Ship/Token" : 2000304313,
-    "Lost and Found/Ship Shape" : 2000311451,
-    # "Lost and Found/Tasksanity Check" : TODO: ???
-    "Post Captain Rescue/Time Piece" : 2000311437,
-    "Reception Room/Suitcase" : 2000304045,
-    "Reception Room/Under Desk" : 2000304047,
-    "Lamp Post/Token" : 2000304048,
-    "Iceberg Top/Token" : 2000304046,
-    "Post Captain Rescue/Behind Iceberg" : 2000304049,
-    "Balcony/Time Rift" : 2000312226,
-    "Deep Sea/Time Rift" : 2000312434,
-    # "Deep Sea/Pages (Starfish, Mini Castle, Urchins)" TODO: ???
-    # "Deep Sea/Pages (Other)" TODO: ???
-    "Toilet/Relic" : 2000305109,
-    "Bar/Token" : 2000304251,
-    "Dive Board Ledge/Token" : 2000304254,
-    "Top Balcony/Token" : 2000304255,
-    "Octopus Room/Relic" : 2000305253,
-    "Octopus Room Top/Token" : 2000304249,
-    "Laundry Room/Token" : 2000304250,
-    "Ship Side/Token" : 2000304247,
-    "Silver Ring/Relic" : 2000305252,
-
-    # Nyakuza Metro
-    "Nyakuza Metro Intro/Time Piece" : 2000311138,
-    "Main Station Dining Area/Rift Token" : 2000304105,
-    "Top of the Ramen Shop/Rift Token" : 2000304104,
-    # "Main Station Thugs/Thug A" : TODO: ???
-    # "Main Station Thugs/Thug B" : TODO: ???
-    # "Main Station Thugs/Thug C" : TODO: ???
-    "Yellow Overpass Station/Time Piece" : 2000311206,
-    "Yellow Overpass Manhole/Time Piece" : 2000311387,
-    "Yellow Overpass Station - Brewing Crate/Relic" : 2000305413,
-    "Yellow Overpass Station/Yellow Metro Ticket" : 2000301014,
-    # "Yellow Overpass Thug A/Scammed" : TODO: ???
-    # "Yellow Overpass Thug B/Scammed" : TODO: ???
-    # "Yellow Overpass Thug C/Scammed" : TODO: ???
-    "Green Clean Station/Time Piece" : 2000311207,
-    "Green Clean Manhole/Time Piece" : 2000311388,
-    "Green Ticket Booth/Green Ticket" : 2000301015,
-    # "Green Clean Thug A/Scammed" : TODO: ???
-    # "Green Clean Thug B/Scammed" : TODO: ???
-    "Bluefin Tunnel/Time Piece" : 2000311208,
-    "Bluefin Tunnel - Cat Vacuum/Relic" : 2000305111,
-    "Blue Ticket Booth/Blue Ticket" : 2000301016,
-    # "Bluefin Tunnel Thug/Scammed" : TODO: ???
-    "Pink Paw Station/Time Piece" : 2000311209,
-    "Pink Paw Manhole/Time Piece" : 2000311389,
-    "Pink Paw Station - Cat Vacuum/Rift Token" : 2000305110,
-    "Pink Paw Station - Behind Fan/Rift Token" : 2000304106,
-    "Pink Ticket Booth/Pink Ticket" : 2000301017,
-    # "Pink Paw Station Thug/Scammed" : TODO:
-    "Rush Hour/Time Piece" : 2000311210,
-    "Rumbi Factory/Time Rift" : 2000312736
-    # "Rumbi Factory/Pages" TODO: ???
-
-    # TODO: Continue from uhh... check Em's stuff, make sure to add comma above as needed
-    # Where is the finale? And Rumbi abuse?
-
-}
-
-# TODO: Add poptracker_entrance_mapping?
-
 class HatInTimeWorld(World):
     """
     A Hat in Time is a cute-as-peck 3D platformer featuring a little girl who stitches hats for wicked powers!
@@ -373,8 +57,13 @@ class HatInTimeWorld(World):
 
     # UT integration
     ut_can_gen_without_yaml = True
+    # TODO: use a better name than Level Up. Since I'm mostly using glitched_item_name already, maybe just higher logic difficulty or something?
     glitches_item_name = "Level Up"
+    # TODO move to tracker.py? Does that make sense?
     settings: ClassVar[AHITSettings]
+    # TODO: import and add entracne mapping
+    # TODO: make a map page groups instead of the map page layout to see if it works better with UT. ..
+    # .. May need to keep due to deathwish?
     tracker_world: ClassVar = {
         "nested_pack" : True,
         "map_page_maps" : "maps/maps.json",
@@ -421,10 +110,6 @@ class HatInTimeWorld(World):
         if re_gen_passthrough and self.game in re_gen_passthrough:
             # Get the passed through slot data from the real generation
             slot_data: dict[str, Any] = re_gen_passthrough[self.game]
-
-            # TODO: Remove
-            # print("Slot data:")
-            # print(slot_data)
 
             # Set all your options here instead of getting them from the yaml
             for key, value in slot_data.items():
@@ -488,12 +173,7 @@ class HatInTimeWorld(World):
                         # No more dw in slot data
                         break
 
-            # TODO: Remove
-            # print("Options:")
-            # print(vars(self.options))
-
-        # TODO: Verify if this is actually causing issues one way or the other, decide how I want to leave it (doing this seems to have changed nothing in the fuzzer)
-        # Options being passed should already be adjusted properly
+        # Options in slot data should already be adjusted properly
         if not self.fake_gen:
             adjust_options(self)
 
@@ -815,7 +495,7 @@ class HatInTimeWorld(World):
         # TODO: Add Custom Sorting? Could group region checks together. (I likely won't do this)
 
         # TODO: Add UT map tracker support (integrate with existing poptracker)
-        # Looks like the item names don't match, so would also need to build a translation table
+        # Looks like the item names don't match, so would also need to build a translation table (WIP)
 
         # TODO: Add any Logic explanation overrides desired (I likely won't do this)
 
@@ -825,3 +505,5 @@ class HatInTimeWorld(World):
         # Would need core PR 6401 to mostly follow existing logic using add_rule, would allow for an easier but less clean/ideal refactor
 
         # TODO: add more item groups? Like Relics, Hats, Yarn, Timepieces, etc?
+        
+        # TODO: update AHIT docs as needed
