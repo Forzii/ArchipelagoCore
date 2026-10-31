@@ -329,7 +329,7 @@ tracker_name_mapping = {
 # Entrance.connect also exists, which just uses an existing entrance name
 # Looks like most of the entrance names are explicitly defined in create_regions and create_rift_connections
 # Not sure how to map this cleanly since some have multiple entrances. Currently arbitrarily using first
-# Also not sure how to deal with Can Complete
+# Also not sure how to deal with Can Complete - can I map to completion time piece?
 # If the functionality is half-baked, could be worth just not including entrance tracking maps
 poptracker_entrance_mapping = {
     # chapter_time_rifts
@@ -362,52 +362,41 @@ poptracker_entrance_mapping = {
     # "Time Rift - Balcony/Can Complete"
     "Time Rift - Deep Sea/Can Enter" : "Bon Voyage! Portal - Entrance 49",
     # "Time Rift - Deep Sea/Can Complete"
-    "Time Rift - Rumbi Factory/Can Enter" : "Nyakuza Free Roam Portal - Entrance 50"
+    "Time Rift - Rumbi Factory/Can Enter" : "Nyakuza Free Roam Portal - Entrance 50",
     # "Time Rift - Rumbi Factory/Can Complete"
 
-    # TODO: continue with chapter1. May want to pause there and figure out if this is even viable/usable
+    "Act 1 - Welcome to Mafia Town/Can Enter" : "Mafia Town - Act 1",
+    # "Act 1 - Welcome to Mafia Town/Can Complete" : 
+    "Act 2 - Barrel Battle/Can Enter" : "Mafia Town - Act 2",
+    # "Act 2 - Barrel Battle/Can Complete" : 
+    "Act 3 - She Came from Outer Space/Can Enter" : "Mafia Town - Act 3",
+    # "Act 3 - She Came from Outer Space/Can Complete" : 
+    "Act 4 - Down with the Mafia!/Can Enter" : "Mafia Town - Act 4",
+    # "Act 4 - Down with the Mafia!/Can Complete" : 
+    "Act 5 - Cheating the Race/Can Enter" : "Mafia Town - Act 5",
+    # "Act 5 - Cheating the Race/Can Complete" : 
+    "Act 6 - Heating up Mafia Town/Can Enter" : "Mafia Town - Act 6",
+    # "Act 6 - Heating up Mafia Town/Can Complete" : 
+    "Act 7 - The Golden Vault/Can Enter" : "Mafia Town - Act 7"
+    # "Act 7 - The Golden Vault/Can Complete" : 
+
+    # TODO: continue with chapter2? Doesn't even seem to be working. Is it worth it?
 }
 
-# TODO: Remove
-# rift_access_regions = {
-    # "Time Rift - Gallery":        ["Spaceship"1],
-    # "Time Rift - The Lab":        ["Spaceship"2],
-
-    # "Time Rift - Sewers":         ["Welcome to Mafia Town"3, "Barrel Battle"4, "She Came from Outer Space"5,
-                                   # "Down with the Mafia!"6, "Cheating the Race"7, "Heating Up Mafia Town"8,
-                                   # "The Golden Vault"9],
-
-    # "Time Rift - Bazaar":         ["Welcome to Mafia Town"10, "Barrel Battle"11, "She Came from Outer Space"12,
-                                   # "Down with the Mafia!"13, "Cheating the Race"14, "Heating Up Mafia Town"15,
-                                   # "The Golden Vault"16],
-
-    # "Time Rift - Mafia of Cooks": ["Welcome to Mafia Town"17, "Barrel Battle"18, "She Came from Outer Space"19,
-                                   # "Down with the Mafia!"20, "Cheating the Race"21, "The Golden Vault"22],
-
-    # "Time Rift - The Owl Express":      ["Murder on the Owl Express"23],
-    # "Time Rift - The Moon":             ["Picture Perfect"24, "The Big Parade"25],
-    # "Time Rift - Dead Bird Studio":     ["Dead Bird Studio"26, "Dead Bird Studio Basement"27],
-
-    # "Time Rift - Pipe":          ["Contractual Obligations"28, "The Subcon Well"29,
-                                  # "Toilet of Doom"30, "Queen Vanessa's Manor"31,
-                                  # "Mail Delivery Service"32],
-
-    # "Time Rift - Village":       ["Contractual Obligations"33, "The Subcon Well"34,
-                                  # "Toilet of Doom"35, "Queen Vanessa's Manor"36,
-                                  # "Mail Delivery Service"37],
-
-    # "Time Rift - Sleepy Subcon": ["Contractual Obligations"38, "The Subcon Well"39,
-                                  # "Toilet of Doom"40, "Queen Vanessa's Manor"41,
-                                  # "Mail Delivery Service"42],
-
-    # "Time Rift - The Twilight Bell": ["Alpine Free Roam"43],
-    # "Time Rift - Curly Tail Trail":  ["Alpine Free Roam"44],
-    # "Time Rift - Alpine Skyline":    ["Alpine Free Roam"45, "The Illness has Spread"46],
-
-    # "Time Rift - Tour":           ["Time's End"47],
-
-    # "Time Rift - Balcony":       ["Cruise Ship"48],
-    # "Time Rift - Deep Sea":      ["Bon Voyage!"49],
-
-    # "Time Rift - Rumbi Factory": ["Nyakuza Free Roam"50],
-# }
+# TODO: adjust or remove? Does this work with deathwish variant stuff?? It might be okay with auto-tabbing...
+# map tabs for UT poptracker integration, mutually exclusive with map_page_layouts
+map_page_groups = {
+    "spaceship",
+    "mafiatown",
+    "deadbirdstudio",
+    "murder_on_the_owl_express",
+    "the_moon",
+    "train_rush",
+    "basement",
+    "subcon",
+    "alpine",
+    "cruise",
+    "nyakuza",
+    "entrances"
+    # "use_deathwish_variant"
+}

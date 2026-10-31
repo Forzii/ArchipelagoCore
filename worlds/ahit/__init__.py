@@ -9,7 +9,7 @@ from .Options import AHITOptions, slot_data_options, adjust_options, RandomizeHa
 from .Types import HatType, ChapterIndex, HatInTimeItem, hat_type_to_item, Difficulty
 from .DeathWishLocations import create_dw_regions, dw_classes, death_wishes
 from .DeathWishRules import set_dw_rules, create_enemy_events, hit_list, bosses
-from .Tracker import map_page_locations, tracker_name_mapping, AHITSettings
+from .Tracker import map_page_locations, tracker_name_mapping, AHITSettings, poptracker_entrance_mapping, map_page_groups
 from worlds.AutoWorld import World, WebWorld, CollectionState
 from worlds.generic.Rules import add_rule
 from typing import List, Dict, TextIO, Any, ClassVar
@@ -61,15 +61,17 @@ class HatInTimeWorld(World):
     glitches_item_name = "Level Up"
     # TODO move to tracker.py? Does that make sense?
     settings: ClassVar[AHITSettings]
-    # TODO: import and add entracne mapping
-    # TODO: make a map page groups instead of the map page layout to see if it works better with UT. ..
-    # .. May need to keep due to deathwish?
+    # TODO: figure out how to have a decent map page layout, both groups and importing seem like a mess atm
+    # Also not sure how to deal with the deathwish varient in a intuitive way
+    # TODO: add item page?
     tracker_world: ClassVar = {
         "nested_pack" : True,
         "map_page_maps" : "maps/maps.json",
         "map_page_locations" : map_page_locations,
         "poptracker_name_mapping" : tracker_name_mapping,
-        "map_page_layouts" : "layouts/map_tabs.json",
+        "poptracker_entrance_mapping" : poptracker_entrance_mapping,
+        "map_page_layouts" : "layouts/map_tabs.json", # TODO: Add the deathwish varient tab layout?
+        # "map_page_groups" : map_page_groups,
         "external_pack_key" : "ut_poptracker_path"
     }
 
