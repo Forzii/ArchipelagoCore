@@ -886,47 +886,46 @@ def set_glitched_expert_rules(world: "HatInTimeWorld"):
     add_rule(world.get_entrance("SF Area -> SF Behind Boss Firewall"),
              lambda state: has_paintings(state, world, 1, True) and glitch_logic(state, world), "or")
     # The boss arena gap can be crossed in reverse with a Cherry Hover.
-    # TODO: Figure out how to do the below connections in a way that only works with glitched logic
-    # Particularly since there's even a function defined here...
-    # Still not sure what to do about the function yet, but I think adding a rule to the new entrances like below will work
     subcon_boss_arena = world.get_region("Subcon Forest Boss Arena")
     subcon_behind_boss_firewall = world.get_region("Subcon Forest Behind Boss Firewall")
     subcon_boss_arena.connect(subcon_behind_boss_firewall, "SF Boss Arena -> SF Behind Boss Firewall",
                               Has(world.glitches_item_name))
 
-    # subcon_area = world.get_region("Subcon Forest Area")
+    subcon_area = world.get_region("Subcon Forest Area")
 
-    # # The boss firewall can be skipped in reverse with a Cherry Hover, but it is not possible to remove the boss
-    # # firewall from reverse because the paintings to burn to remove the firewall are on the other side of the firewall.
-    # # Therefore, a painting skip is required. The paintings could be burned by already having access to
-    # # "Subcon Forest Area" through another entrance, but making a new connection to "Subcon Forest Area" in that case
-    # # would be pointless.
-    # if not world.options.NoPaintingSkips:
-        # # The import cannot be done at the module-level because it would cause a circular import.
-        # from .Regions import get_region_shuffled_to
+    # The boss firewall can be skipped in reverse with a Cherry Hover, but it is not possible to remove the boss
+    # firewall from reverse because the paintings to burn to remove the firewall are on the other side of the firewall.
+    # Therefore, a painting skip is required. The paintings could be burned by already having access to
+    # "Subcon Forest Area" through another entrance, but making a new connection to "Subcon Forest Area" in that case
+    # would be pointless.
+    if not world.options.NoPaintingSkips:
+        # The import cannot be done at the module-level because it would cause a circular import.
+        from .Regions import get_region_shuffled_to
 
-        # subcon_behind_boss_firewall.connect(subcon_area, "SF Behind Boss Firewall -> SF Area")
+        subcon_behind_boss_firewall.connect(subcon_area, "SF Behind Boss Firewall -> SF Area",
+                                            Has(world.glitches_item_name))
 
-        # # Because the Your Contract has Expired entrance can now reach "Subcon Forest Area", it needs to be connected to
-        # # each of the Subcon Forest Time Rift entrances, like the other Subcon Forest Acts.
-        # yche = world.get_region("Your Contract has Expired")
+        # Because the Your Contract has Expired entrance can now reach "Subcon Forest Area", it needs to be connected to
+        # each of the Subcon Forest Time Rift entrances, like the other Subcon Forest Acts.
+        yche = world.get_region("Your Contract has Expired")
 
-        # def connect_to_shuffled_act_at(original_act_name):
-            # region_name = get_region_shuffled_to(world, original_act_name)
-            # return yche.connect(world.get_region(region_name), f"{original_act_name} Portal - Entrance YCHE")
+        def glitched_connect_to_shuffled_act_at(original_act_name):
+            region_name = get_region_shuffled_to(world, original_act_name)
+            return yche.connect(world.get_region(region_name), f"{original_act_name} Portal - Entrance YCHE",
+                                Has(world.glitches_item_name))
 
-        # # Rules copied from `Rules.set_rift_rules()` with painting logic removed because painting skips must be
-        # # available.
-        # entrance = connect_to_shuffled_act_at("Time Rift - Pipe")
-        # add_rule(entrance, lambda state: can_clear_required_act(state, world, "Subcon Forest - Act 2"))
-        # reg_act_connection(world, world.get_entrance("Subcon Forest - Act 2").connected_region, entrance)
+        # Rules copied from `Rules.set_rift_rules()` with painting logic removed because painting skips must be
+        # available.
+        entrance = glitched_connect_to_shuffled_act_at("Time Rift - Pipe")
+        add_rule(entrance, lambda state: can_clear_required_act(state, world, "Subcon Forest - Act 2"))
+        reg_act_connection(world, world.get_entrance("Subcon Forest - Act 2").connected_region, entrance)
 
-        # entrance = connect_to_shuffled_act_at("Time Rift - Village")
-        # add_rule(entrance, lambda state: can_clear_required_act(state, world, "Subcon Forest - Act 4"))
-        # reg_act_connection(world, world.get_entrance("Subcon Forest - Act 4").connected_region, entrance)
+        entrance = glitched_connect_to_shuffled_act_at("Time Rift - Village")
+        add_rule(entrance, lambda state: can_clear_required_act(state, world, "Subcon Forest - Act 4"))
+        reg_act_connection(world, world.get_entrance("Subcon Forest - Act 4").connected_region, entrance)
 
-        # entrance = connect_to_shuffled_act_at("Time Rift - Sleepy Subcon")
-        # add_rule(entrance, lambda state: has_relic_combo(state, world, "UFO"))
+        entrance = glitched_connect_to_shuffled_act_at("Time Rift - Sleepy Subcon")
+        add_rule(entrance, lambda state: has_relic_combo(state, world, "UFO"))
 
     add_rule(world.multiworld.get_location("Act Completion (Toilet of Doom)", world.player),
              lambda state: can_use_hookshot(state, world) and can_hit(state, world)
@@ -937,9 +936,8 @@ def set_glitched_expert_rules(world: "HatInTimeWorld"):
              lambda state: has_paintings(state, world, 3, True) and glitch_logic(state, world), "or")
 
     # You can cherry hover to Snatcher's post-fight cutscene, which completes the level without having to fight him
-    # TODO: same as above, figure out how to deal with this
-    # yche_post_fight = world.get_region("Your Contract has Expired - Post Fight")
-    # subcon_area.connect(yche_post_fight, "Snatcher Hover")
+    yche_post_fight = world.get_region("Your Contract has Expired - Post Fight")
+    subcon_area.connect(yche_post_fight, "Snatcher Hover", Has(world.glitches_item_name))
     # Cherry Hover from YCHE also works, so there are no requirements for the Act Completion.
     add_rule(world.get_location("Act Completion (Your Contract has Expired)"),
              lambda state: glitch_logic(state, world), "or")

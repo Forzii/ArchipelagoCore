@@ -261,8 +261,8 @@ ahit_items = {
     "Metro Ticket - Blue": ItemData(2000300047, ItemClassification.progression, HatDLC.dlc2),
     "Metro Ticket - Pink": ItemData(2000300048, ItemClassification.progression, HatDLC.dlc2),
     
-    # UT
-    "Level Up": ItemData(2000300900, ItemClassification.progression),
+    # UT fake item, should never be in item pool
+    "Higher Logic Hat": ItemData(2000300900, ItemClassification.progression),
 }
 
 act_contracts = {

@@ -57,23 +57,22 @@ class HatInTimeWorld(World):
 
     # UT integration
     ut_can_gen_without_yaml = True
-    # TODO: use a better name than Level Up. Since I'm mostly using glitched_item_name already, maybe just higher logic difficulty or something?
-    glitches_item_name = "Level Up"
+    glitches_item_name = "Higher Logic Hat"
     # TODO move to tracker.py? Does that make sense?
-    settings: ClassVar[AHITSettings]
-    # TODO: figure out how to have a decent map page layout, both groups and importing seem like a mess atm
-    # Also not sure how to deal with the deathwish varient in a intuitive way
-    # TODO: add item page?
-    tracker_world: ClassVar = {
-        "nested_pack" : True,
-        "map_page_maps" : "maps/maps.json",
-        "map_page_locations" : map_page_locations,
-        "poptracker_name_mapping" : tracker_name_mapping,
-        "poptracker_entrance_mapping" : poptracker_entrance_mapping,
-        "map_page_layouts" : "layouts/map_tabs.json", # TODO: Add the deathwish varient tab layout?
-        # "map_page_groups" : map_page_groups,
-        "external_pack_key" : "ut_poptracker_path"
-    }
+    # settings: ClassVar[AHITSettings]
+    # # TODO: figure out how to have a decent map page layout, both groups and importing seem like a mess atm
+    # # Also not sure how to deal with the deathwish varient in a intuitive way
+    # # TODO: add item page?
+    # tracker_world: ClassVar = {
+        # "nested_pack" : True,
+        # "map_page_maps" : "maps/maps.json",
+        # "map_page_locations" : map_page_locations,
+        # "poptracker_name_mapping" : tracker_name_mapping,
+        # "poptracker_entrance_mapping" : poptracker_entrance_mapping,
+        # "map_page_layouts" : "layouts/map_tabs.json", # TODO: Add the deathwish varient tab layout?
+        # # "map_page_groups" : map_page_groups,
+        # "external_pack_key" : "ut_poptracker_path"
+    # }
 
     def __init__(self, multiworld: "MultiWorld", player: int):
         super().__init__(multiworld, player)
