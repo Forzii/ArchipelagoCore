@@ -5,10 +5,11 @@ from .Types import HatType, ChapterIndex, hat_type_to_item, Difficulty, HitType
 from BaseClasses import Location, Entrance, Region
 from typing import TYPE_CHECKING, List, Callable, Union, Dict
 from .Options import EndGoal, CTRLogic, NoTicketSkips
+from rule_builder.rules import Has
 
 if TYPE_CHECKING:
     from . import HatInTimeWorld
-    
+
 
 act_connections = {
     "Mafia Town - Act 2": ["Mafia Town - Act 1"],
@@ -34,10 +35,10 @@ act_connections = {
 }
 
 
-# TODO: find a better way to do this
+# TODO: find a better way to do this. Maybe just use state.has in the lambda rule at this point...
 def glitch_logic(state: CollectionState, world: "HatInTimeWorld"):
     # if world.fake_gen:
-    return state.has("Level Up", world.player)
+    return state.has(world.glitches_item_name, world.player)
     # else:
         # return False
 
@@ -311,7 +312,7 @@ def set_rules(world: "HatInTimeWorld"):
                      lambda state, z=zipline: state.has(z, world.player))
 
     dummy_entrances: List[Entrance] = []
-      
+
     for (key, acts) in act_connections.items():
         if "Arctic Cruise" in key and not world.is_dlc1():
             continue
@@ -380,11 +381,11 @@ def set_specific_rules(world: "HatInTimeWorld"):
 
     if difficulty >= Difficulty.EXPERT:
         set_expert_rules(world)
-        
+
     # UT Glitched logic
     if world.fake_gen:
         glitch_difficulty = difficulty+1
-        
+
         if glitch_difficulty == Difficulty.MODERATE:
             set_glitched_moderate_rules(world)
 
@@ -393,7 +394,7 @@ def set_specific_rules(world: "HatInTimeWorld"):
 
         if glitch_difficulty == Difficulty.EXPERT:
             set_glitched_expert_rules(world)
-    
+
 
 
 def set_moderate_rules(world: "HatInTimeWorld"):
@@ -566,7 +567,7 @@ def set_glitched_moderate_rules(world: "HatInTimeWorld"):
 
         # Moderate: clear Deep Sea without Ice Hat
         add_rule(world.multiworld.get_location("Act Completion (Time Rift - Deep Sea)", world.player),
-                 lambda state: can_use_hookshot(state, world) and can_use_hat(state, world, HatType.DWELLER) 
+                 lambda state: can_use_hookshot(state, world) and can_use_hat(state, world, HatType.DWELLER)
                  and glitch_logic(state, world), "or")
 
     # There is a glitched fall damage volume near the Yellow Overpass time piece that warps the player to Pink Paw.
@@ -887,9 +888,11 @@ def set_glitched_expert_rules(world: "HatInTimeWorld"):
     # The boss arena gap can be crossed in reverse with a Cherry Hover.
     # TODO: Figure out how to do the below connections in a way that only works with glitched logic
     # Particularly since there's even a function defined here...
-    # subcon_boss_arena = world.get_region("Subcon Forest Boss Arena")
-    # subcon_behind_boss_firewall = world.get_region("Subcon Forest Behind Boss Firewall")
-    # subcon_boss_arena.connect(subcon_behind_boss_firewall, "SF Boss Arena -> SF Behind Boss Firewall")
+    # Still not sure what to do about the function yet, but I think adding a rule to the new entrances like below will work
+    subcon_boss_arena = world.get_region("Subcon Forest Boss Arena")
+    subcon_behind_boss_firewall = world.get_region("Subcon Forest Behind Boss Firewall")
+    subcon_boss_arena.connect(subcon_behind_boss_firewall, "SF Boss Arena -> SF Behind Boss Firewall",
+                              Has(world.glitches_item_name))
 
     # subcon_area = world.get_region("Subcon Forest Area")
 
@@ -938,13 +941,13 @@ def set_glitched_expert_rules(world: "HatInTimeWorld"):
     # yche_post_fight = world.get_region("Your Contract has Expired - Post Fight")
     # subcon_area.connect(yche_post_fight, "Snatcher Hover")
     # Cherry Hover from YCHE also works, so there are no requirements for the Act Completion.
-    add_rule(world.get_location("Act Completion (Your Contract has Expired)"), 
+    add_rule(world.get_location("Act Completion (Your Contract has Expired)"),
              lambda state: glitch_logic(state, world), "or")
 
     if world.is_dlc2():
         # Expert: clear Rush Hour with nothing
         if world.options.NoTicketSkips != NoTicketSkips.option_true:
-            add_rule(world.multiworld.get_location("Act Completion (Rush Hour)", world.player), 
+            add_rule(world.multiworld.get_location("Act Completion (Rush Hour)", world.player),
                      lambda state: glitch_logic(state, world), "or")
         else:
             add_rule(world.multiworld.get_location("Act Completion (Rush Hour)", world.player),

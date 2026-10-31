@@ -9,9 +9,10 @@ from .Options import AHITOptions, slot_data_options, adjust_options, RandomizeHa
 from .Types import HatType, ChapterIndex, HatInTimeItem, hat_type_to_item, Difficulty
 from .DeathWishLocations import create_dw_regions, dw_classes, death_wishes
 from .DeathWishRules import set_dw_rules, create_enemy_events, hit_list, bosses
+from .Tracker import map_page_locations, tracker_name_mapping, AHITSettings, poptracker_entrance_mapping, map_page_groups
 from worlds.AutoWorld import World, WebWorld, CollectionState
 from worlds.generic.Rules import add_rule
-from typing import List, Dict, TextIO, Any
+from typing import List, Dict, TextIO, Any, ClassVar
 from worlds.LauncherComponents import Component, components, icon_paths, launch as launch_component, Type
 from Utils import local_path
 
@@ -56,7 +57,23 @@ class HatInTimeWorld(World):
 
     # UT integration
     ut_can_gen_without_yaml = True
+    # TODO: use a better name than Level Up. Since I'm mostly using glitched_item_name already, maybe just higher logic difficulty or something?
     glitches_item_name = "Level Up"
+    # TODO move to tracker.py? Does that make sense?
+    settings: ClassVar[AHITSettings]
+    # TODO: figure out how to have a decent map page layout, both groups and importing seem like a mess atm
+    # Also not sure how to deal with the deathwish varient in a intuitive way
+    # TODO: add item page?
+    tracker_world: ClassVar = {
+        "nested_pack" : True,
+        "map_page_maps" : "maps/maps.json",
+        "map_page_locations" : map_page_locations,
+        "poptracker_name_mapping" : tracker_name_mapping,
+        "poptracker_entrance_mapping" : poptracker_entrance_mapping,
+        "map_page_layouts" : "layouts/map_tabs.json", # TODO: Add the deathwish varient tab layout?
+        # "map_page_groups" : map_page_groups,
+        "external_pack_key" : "ut_poptracker_path"
+    }
 
     def __init__(self, multiworld: "MultiWorld", player: int):
         super().__init__(multiworld, player)
@@ -81,7 +98,7 @@ class HatInTimeWorld(World):
         self.dw_shuffle: List[str] = []
         self.nyakuza_thug_items: Dict[str, int] = {}
         self.badge_seller_count: int = 0
-        
+
         # UT generation
         self.fake_gen = getattr(self.multiworld, "generation_is_fake",False)
 
@@ -95,10 +112,6 @@ class HatInTimeWorld(World):
         if re_gen_passthrough and self.game in re_gen_passthrough:
             # Get the passed through slot data from the real generation
             slot_data: dict[str, Any] = re_gen_passthrough[self.game]
-
-            # TODO: Remove
-            # print("Slot data:")
-            # print(slot_data)
 
             # Set all your options here instead of getting them from the yaml
             for key, value in slot_data.items():
@@ -161,13 +174,8 @@ class HatInTimeWorld(World):
                     else:
                         # No more dw in slot data
                         break
-            
-            # TODO: Remove
-            # print("Options:")
-            # print(vars(self.options))
 
-        # TODO: Verify if this is actually causing issues one way or the other, decide how I want to leave it (doing this seems to have changed nothing in the fuzzer)
-        # Options being passed should already be adjusted properly
+        # Options in slot data should already be adjusted properly
         if not self.fake_gen:
             adjust_options(self)
 
@@ -489,13 +497,15 @@ class HatInTimeWorld(World):
         # TODO: Add Custom Sorting? Could group region checks together. (I likely won't do this)
 
         # TODO: Add UT map tracker support (integrate with existing poptracker)
-        # Looks like the item names don't match, so would also need to build a translation table
+        # Looks like the item names don't match, so would also need to build a translation table (WIP)
 
         # TODO: Add any Logic explanation overrides desired (I likely won't do this)
 
         # TODO: Consider optimizations, cleaner code, make sure changes are clean and meet AP style standards
-        
-        # TODO: Add hint colors to AHIT client UT integration? Is that already there by default?
-        
+
         # TODO: Consider refactor to Rule Builder to greatly improve/streamline glitch logic. (I likely won't do this, but maybe!)
         # Would need core PR 6401 to mostly follow existing logic using add_rule, would allow for an easier but less clean/ideal refactor
+
+        # TODO: add more item groups? Like Relics, Hats, Yarn, Timepieces, etc?
+        
+        # TODO: update AHIT docs as needed
