@@ -1,4 +1,4 @@
-from typing import List, TYPE_CHECKING, Dict, Any
+from typing import TYPE_CHECKING, Any
 from schema import Schema, Optional
 from dataclasses import dataclass
 from worlds.AutoWorld import PerGameCommonOptions
@@ -8,8 +8,8 @@ if TYPE_CHECKING:
     from . import HatInTimeWorld
 
 
-def create_option_groups() -> List[OptionGroup]:
-    option_group_list: List[OptionGroup] = []
+def create_option_groups() -> list[OptionGroup]:
+    option_group_list: list[OptionGroup] = []
     for name, options in ahit_option_groups.items():
         option_group_list.append(OptionGroup(name=name, options=options))
 
@@ -53,7 +53,8 @@ def adjust_options(world: "HatInTimeWorld"):
     if world.is_dlc1() and world.options.ShipShapeCustomTaskGoal <= 0:
         # automatically determine task count based on Tasksanity settings
         if world.options.Tasksanity:
-            world.options.ShipShapeCustomTaskGoal.value = world.options.TasksanityCheckCount * world.options.TasksanityTaskStep
+            world.options.ShipShapeCustomTaskGoal.value = \
+             world.options.TasksanityCheckCount * world.options.TasksanityTaskStep
         else:
             world.options.ShipShapeCustomTaskGoal.value = 18
 
@@ -729,7 +730,7 @@ class AHITOptions(PerGameCommonOptions):
     dw_death_link_amnesty:    DWDeathLinkAmnesty
 
 
-ahit_option_groups: Dict[str, List[Any]] = {
+ahit_option_groups: dict[str, list[Any]] = {
     "General Options": [EndGoal, ShuffleStorybookPages, ShuffleDirectorTokens,
                         ShuffleAlpineZiplines, ShuffleSubconPaintings,
                         ShuffleActContracts, MinPonCost, MaxPonCost, BadgeSellerMinItems, BadgeSellerMaxItems,
@@ -757,7 +758,7 @@ ahit_option_groups: Dict[str, List[Any]] = {
 }
 
 
-slot_data_options: List[str] = [
+slot_data_options: list[str] = [
     "EndGoal",
     "ActRandomizer",
     "ShuffleAlpineZiplines",
