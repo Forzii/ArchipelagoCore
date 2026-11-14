@@ -2,7 +2,7 @@ from .Types import HatInTimeLocation, HatInTimeItem
 from .Regions import create_region
 from BaseClasses import Region, LocationProgressType, ItemClassification
 from worlds.generic.Rules import add_rule
-from typing import List, TYPE_CHECKING
+from typing import TYPE_CHECKING
 from .Locations import death_wishes
 from .Options import EndGoal
 
@@ -171,17 +171,17 @@ def create_dw_regions(world: "HatInTimeWorld"):
 
     if world.options.DWShuffle:
 
-        dw_shuffle: List[str] = []
+        dw_shuffle: list[str] = []
 
         # Already have dw_shuffle built if UT generation
         if world.fake_gen:
             dw_shuffle = world.dw_shuffle
         else:
             # Connect Death Wishes randomly to one another in a linear sequence
-            dw_list: List[str] = []
+            dw_list: list[str] = []
             for name in death_wishes.keys():
                 # Don't shuffle excluded or invalid Death Wishes
-                if not world.is_dlc2() and name == "Snatcher Coins in Nyakuza Metro" or world.is_dw_excluded(name):
+                if (not world.is_dlc2() and name == "Snatcher Coins in Nyakuza Metro") or world.is_dw_excluded(name):
                     continue
 
                 dw_list.append(name)
