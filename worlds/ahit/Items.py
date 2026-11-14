@@ -3,16 +3,16 @@ from .Types import HatDLC, HatType, hat_type_to_item, Difficulty, ItemData, HatI
 from .Locations import get_total_locations
 from .Rules import get_difficulty
 from .Options import get_total_time_pieces, CTRLogic
-from typing import List, Dict, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from . import HatInTimeWorld
 
 
-def create_itempool(world: "HatInTimeWorld") -> List[Item]:
-    itempool: List[Item] = []
+def create_itempool(world: "HatInTimeWorld") -> list[Item]:
+    itempool: list[Item] = []
     if world.has_yarn():
-        yarn_pool: List[Item] = create_multiple_items(world, "Yarn",
+        yarn_pool: list[Item] = create_multiple_items(world, "Yarn",
                                                       world.options.YarnAvailable.value,
                                                       ItemClassification.progression_skip_balancing)
 
@@ -64,7 +64,7 @@ def create_itempool(world: "HatInTimeWorld") -> List[Item]:
             continue
 
         if name == "Time Piece":
-            tp_list: List[Item] = create_multiple_items(world, name, get_total_time_pieces(world), item_type)
+            tp_list: list[Item] = create_multiple_items(world, name, get_total_time_pieces(world), item_type)
             for i in range(int(len(tp_list) * (0.01 * world.options.TimePieceBalancePercent))):
                 tp_list[i].classification = ItemClassification.progression
 
@@ -106,11 +106,11 @@ def item_dlc_enabled(world: "HatInTimeWorld", name: str) -> bool:
 
     if data.dlc_flags == HatDLC.none:
         return True
-    elif data.dlc_flags == HatDLC.dlc1 and world.is_dlc1():
+    if data.dlc_flags == HatDLC.dlc1 and world.is_dlc1():
         return True
-    elif data.dlc_flags == HatDLC.dlc2 and world.is_dlc2():
+    if data.dlc_flags == HatDLC.dlc2 and world.is_dlc2():
         return True
-    elif data.dlc_flags == HatDLC.death_wish and world.is_dw():
+    if data.dlc_flags == HatDLC.death_wish and world.is_dw():
         return True
 
     return False
@@ -122,26 +122,26 @@ def create_item(world: "HatInTimeWorld", name: str) -> Item:
 
 
 def create_multiple_items(world: "HatInTimeWorld", name: str, count: int = 1,
-                          item_type: ItemClassification = ItemClassification.progression) -> List[Item]:
+                          item_type: ItemClassification = ItemClassification.progression) -> list[Item]:
 
     data = item_table[name]
-    itemlist: List[Item] = []
+    itemlist: list[Item] = []
 
-    for i in range(count):
+    for _i in range(count):
         itemlist += [HatInTimeItem(name, item_type, data.code, world.player)]
 
     return itemlist
 
 
-def create_junk_items(world: "HatInTimeWorld", count: int) -> List[Item]:
+def create_junk_items(world: "HatInTimeWorld", count: int) -> list[Item]:
     trap_chance = world.options.TrapChance.value
-    junk_pool: List[Item] = []
-    junk_list: Dict[str, int] = {}
-    trap_list: Dict[str, int] = {}
+    junk_pool: list[Item] = []
+    junk_list: dict[str, int] = {}
+    trap_list: dict[str, int] = {}
     ic: ItemClassification
 
-    for name in item_table.keys():
-        ic = item_table[name].classification
+    for name, value in item_table.items():
+        ic = value.classification
         if ic == ItemClassification.filler:
             if world.is_dw_only() and "Pons" in name:
                 continue
@@ -156,7 +156,7 @@ def create_junk_items(world: "HatInTimeWorld", count: int) -> List[Item]:
             elif name == "Parade Trap":
                 trap_list[name] = world.options.ParadeTrapWeight.value
 
-    for i in range(count):
+    for _i in range(count):
         if trap_chance > 0 and world.random.randint(1, 100) <= trap_chance:
             junk_pool.append(world.create_item(
                 world.random.choices(list(trap_list.keys()), weights=list(trap_list.values()), k=1)[0]))
