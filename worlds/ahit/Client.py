@@ -5,7 +5,8 @@ import Utils
 import websockets
 import functools
 from copy import deepcopy
-from typing import List, Any, Iterable
+from typing import Any
+from collections.abc import Iterable
 from NetUtils import decode, encode, JSONtoTextParser, JSONMessagePart, NetworkItem, NetworkPlayer
 from MultiServer import Endpoint
 from typing import ClassVar
@@ -51,12 +52,12 @@ class AHITContext(CommonContext):
         self.connected_msg = None
         self.game_connected = False
         self.awaiting_info = False
-        self.full_inventory: List[Any] = []
-        self.server_msgs: List[Any] = []
+        self.full_inventory: list[Any] = []
+        self.server_msgs: list[Any] = []
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
-            await super(AHITContext, self).server_auth(password_requested)
+            await super().server_auth(password_requested)
 
         await self.get_username()
         await self.send_connect()
